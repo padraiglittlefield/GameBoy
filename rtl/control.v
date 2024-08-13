@@ -1,3 +1,4 @@
+
 `include "/home/plittlefield6/GitHub/GameBoy/rtl/common_defs.vh"
 
 module control(
@@ -13,14 +14,14 @@ module control(
     output reg[7:0] acc_out,
     output reg[1:0] idu_src,
     
-    output reg [2:0] alu_a_src,
-    output reg [2:0] alu_b_src,
+    output reg [3:0] alu_a_src,
+    output reg [3:0] alu_b_src,
     output reg [4:0] alu_op,
-    output reg [1:0] alu_res_dst,
+    output reg [2:0] alu_res_dst,
 
     
 
-    output reg [1:0] idu_dst,
+    output reg [2:0] idu_dst,
     output reg reg_we, 
     output reg [2:0] reg_wa,
     output reg [2:0] reg_rd_adr,
@@ -34,7 +35,7 @@ module control(
     output reg imm_w_en,
     output reg fetch_en,
     output reg [1:0] adr_bus,
-    output reg d_bus,
+    output reg [1:0] d_bus,
     output reg [1:0] d_bus_dst,
     //daa???
 
@@ -58,9 +59,9 @@ module control(
 
     reg comb_fetch_en;
     reg [7:0] comb_acc_out;
-    reg [1:0] comb_alu_res_dst;
-    reg [2:0] comb_alu_a_src;
-    reg [2:0] comb_alu_b_src;
+    reg [2:0] comb_alu_res_dst;
+    reg [3:0] comb_alu_a_src;
+    reg [3:0] comb_alu_b_src;
     reg [4:0] comb_alu_op;
     reg comb_reg_we; 
     reg [2:0] comb_reg_wa;
@@ -69,7 +70,7 @@ module control(
     reg [1:0] comb_reg_waa;                     
     reg [1:0] comb_reg_rda_adr;
     reg [1:0] comb_idu_mode;
-    reg [1:0] comb_idu_dst;
+    reg [2:0] comb_idu_dst;
     reg comb_call_en;
     reg comb_pc_jp;
     reg comb_ime_next;
@@ -79,7 +80,7 @@ module control(
     reg comb_imm_w_en;
     reg [2:0] comb_next_m_cycle;
     reg [1:0] comb_adr_bus_src;
-    reg comb_d_bus;
+    reg [1:0] comb_d_bus;
     reg comb_cpu_wr_en;
     reg comb_jmp_dst;
     reg comb_wake;
@@ -91,12 +92,12 @@ module control(
 
 always@(*) begin
     if(rst) begin
-        comb_fetch_en = '1;
+        comb_fetch_en = 1'b1;
         comb_acc_out = '0;
-        comb_alu_res_dst = '0;
+        comb_alu_res_dst = 3'b000;
         comb_alu_a_src = '0;
         comb_alu_b_src = '0;
-        comb_alu_op = '0;
+        comb_alu_op = 5'b0;
         comb_reg_we = '0; 
         comb_reg_wa = '0;
         comb_reg_rd_adr = '0;
@@ -750,17 +751,14 @@ always@(*) begin
                                             comb_imm_z_en = 1'b1;
                                            // comb_alu_res_dst =`ALU_RES_DST_RIEN;
                                             comb_adr_bus_src = `AB_PC;
-
-                                            comb_idu_mode = `INC;
-                                            comb_idu_dst = `IDU_DST_PC;
+                                            
+                                            comb_idu_src = `IDU_SRC_PC_H;
+                                            comb_idu_dst = `IDU_DST_W;
                                             comb_next_m_cycle = `m1;
                                             comb_alu_op = `OP_ADD;
                                             comb_alu_a_src = `ALU_SRC_IMM8;
                                             comb_alu_b_src = `ALU_SRC_PCL;
                                             comb_alu_res_dst =`ALU_RES_DST_IMMZ;
-
-                                        end
-                                        `m1: begin //calc next address
 
                                             if(flags[`C] == 1'b1 && imm_z_in[7] == 1'b0) begin
                                                 comb_idu_mode = `INC;
@@ -770,14 +768,20 @@ always@(*) begin
                                                 comb_idu_mode = `NOP;
                                             end
 
-                                            comb_idu_src = `IDU_SRC_PC_H;
+                                        end
+                                        `m1: begin //calc next address
 
+
+                                        
+                                            comb_pc_jp = 1'b1;
+                                            comb_jmp_dst = `JMP_DST_WZ;
                                             comb_adr_bus_src = `AB_IMM;
-                                            comb_idu_dst = `IDU_DST_W;
+                                            comb_idu_mode = `INC;
+                                            comb_idu_dst = `IDU_DST_PC;
                                             comb_next_m_cycle = `m2;
                                         end
                                         `m2: begin
-
+                                            comb_pc_jp = 1'b0;
                                             comb_alu_res_dst =`ALU_RES_DST_RIEN;
                                             comb_fetch_en = 1'b1;
                                             comb_idu_mode = `INC;
@@ -791,7 +795,7 @@ always@(*) begin
                                     endcase
                                     
                                 end else if(instr[7:5] == 3'b001 && instr[2:0] == 3'b000) begin // jr cond, imm8
-                                    case(m_cycle)
+                                   case(m_cycle)
                                         `m0: begin //fetch address offset
                                             comb_reg_we = 1'b0;
                                             comb_reg_wea = 1'b0;
@@ -800,14 +804,22 @@ always@(*) begin
                                             comb_imm_z_en = 1'b1;
                                            // comb_alu_res_dst =`ALU_RES_DST_RIEN;
                                             comb_adr_bus_src = `AB_PC;
-
-                                            comb_idu_mode = `INC;
-                                            comb_idu_dst = `IDU_DST_PC;
+                                            
+                                            comb_idu_src = `IDU_SRC_PC_H;
+                                            comb_idu_dst = `IDU_DST_W;
                                             comb_next_m_cycle = `m1;
                                             comb_alu_op = `OP_ADD;
                                             comb_alu_a_src = `ALU_SRC_IMM8;
                                             comb_alu_b_src = `ALU_SRC_PCL;
                                             comb_alu_res_dst =`ALU_RES_DST_IMMZ;
+
+                                            if(flags[`C] == 1'b1 && imm_z_in[7] == 1'b0) begin
+                                                comb_idu_mode = `INC;
+                                            end else if(flags[`C] == 1'b0 && imm_z_in[7] == 1'b1) begin
+                                                comb_idu_mode = `DEC;
+                                            end else begin
+                                                comb_idu_mode = `NOP;
+                                            end
 
                                             cc = instr[4:3];
                                             case(cc)
@@ -843,23 +855,16 @@ always@(*) begin
 
                                         end
                                         `m1: begin //calc next address
-                                            
 
-                                            if(cc_met) begin
-                                                if(flags[`C] == 1'b1 && imm_z_in[7] == 1'b0) begin
-                                                    comb_idu_mode = `INC;
-                                                end else if(flags[`C] == 1'b0 && imm_z_in[7] == 1'b1) begin
-                                                    comb_idu_mode = `DEC;
-                                                end else begin
-                                                    comb_idu_mode = `NOP;
-                                                end
-
-                                                comb_idu_src = `IDU_SRC_PC_H;
-
+                                            if(cc_met == 1'b1) begin
+                                                comb_pc_jp = 1'b1;
+                                                comb_jmp_dst = `JMP_DST_WZ;
                                                 comb_adr_bus_src = `AB_IMM;
-                                                comb_idu_dst = `IDU_DST_W;
+                                                comb_idu_mode = `INC;
+                                                comb_idu_dst = `IDU_DST_PC;
                                                 comb_next_m_cycle = `m2;
                                             end else begin
+                                                comb_pc_jp = 1'b0;
                                                 comb_alu_res_dst =`ALU_RES_DST_RIEN;
                                                 comb_fetch_en = 1'b1;
                                                 comb_idu_mode = `INC;
@@ -868,10 +873,9 @@ always@(*) begin
                                                 comb_idu_src = `IDU_SRC_AB;
                                                 comb_next_m_cycle = `m0;
                                             end
-
                                         end
                                         `m2: begin
-                                            cc_met = 1'b0;
+                                            comb_pc_jp = 1'b0;
                                             comb_alu_res_dst =`ALU_RES_DST_RIEN;
                                             comb_fetch_en = 1'b1;
                                             comb_idu_mode = `INC;
@@ -1002,7 +1006,77 @@ always@(*) begin
                                             endcase
                                         end
                                         4'b1000: begin //ld [imm16], sp
+                                            case(m_cycle)
+                                                 `m0: begin //load z
+                                                    comb_d_bus_dst = `DB_DST_RIEN;
+                                                    comb_reg_we = 1'b0;
+                                                    comb_reg_wea = 1'b0;
 
+                                                    comb_fetch_en = 1'b0;
+                                                    comb_imm_z_en = 1'b1;
+                                                    comb_alu_res_dst =`ALU_RES_DST_RIEN;
+                                                    comb_adr_bus_src = `AB_PC;
+
+                                                    comb_idu_mode = `INC;
+                                                    comb_idu_dst = `IDU_DST_PC;
+                                                    comb_next_m_cycle = `m1;
+                                                end
+                                                `m1: begin // load w
+                                            
+                                                    comb_imm_z_en = 1'b0;
+                                                    comb_imm_w_en = 1'b1;
+                                                    
+                                                    comb_adr_bus_src = `AB_PC;
+
+                                                    comb_idu_mode = `INC;
+                                                    comb_idu_dst = `IDU_DST_PC;
+                                                    comb_next_m_cycle = `m2;
+                                                end
+                                                `m2: begin // load spl to mem
+
+                                                    comb_imm_z_en = 1'b0;
+                                                    comb_imm_w_en = 1'b0;
+                                                    comb_adr_bus_src = `AB_IMM;
+
+                                                    comb_cpu_wr_en = 1'b1;
+                                                    
+                                                    comb_d_bus = `DB_SPL;
+                                                    
+                                                    comb_next_m_cycle = `m3;
+                                                    comb_idu_dst = `IDU_DST_WZ;
+
+                                                
+                                                end
+                                                `m3: begin // load sph to mem
+
+                                                    comb_adr_bus_src = `AB_IMM;
+
+                                                    comb_cpu_wr_en = 1'b1;
+                                                    
+                                                    comb_d_bus = `DB_SPH;
+                                                    
+                                                    comb_next_m_cycle = `m3;
+                                                    comb_idu_dst = `IDU_DST_RIEN;
+
+                                                
+                                                end
+                                                `m4:begin //fetch next instruction
+
+                                                    comb_imm_z_en = 1'b0;
+                                                    comb_d_bus_dst = `DB_DST_RIEN;
+                                                    comb_fetch_en = 1'b1;
+                                                    comb_adr_bus_src = `AB_PC;
+
+                                                    comb_cpu_wr_en = 1'b0;
+
+
+                                                    comb_idu_mode = `INC;
+                                                    comb_idu_dst = `IDU_DST_PC;
+                                                    comb_next_m_cycle = `m0;
+                                                end
+                                                default: begin
+                                                end
+                                            endcase
                                         end
                                         4'b0011: begin //inc r16
                                             case(m_cycle)
@@ -1063,7 +1137,34 @@ always@(*) begin
                                             endcase
                                         end
                                         4'b1001: begin //add hl, r16
+                                            case(m_cycle)
+                                            // adds lsb r16 to l, stores in l
+                                            `m0: begin
+                                                comb_fetch_en = 1'b0;
+                                                comb_reg_we = 1'b0;
 
+                                                comb_alu_res_dst = `ALU_RES_DST_L;
+                                                comb_alu_op = `OP_ADD;
+                                                comb_alu_a_src = `ALU_SRC_L;
+                                                comb_alu_b_src = `ALU_SRC_IMM8;
+                                                comb_reg_rda_adr = instr[5:4]
+
+                                            end
+                                            // ads msb r16 to h, saves in h, fetches next instr
+                                            `m1: begin
+                                                comb_alu_res_dst = `ALU_RES_DST_H;
+                                                comb_alu_op = `OP_ADD;
+                                                comb_alu_a_src = `ALU_SRC_H;
+                                                comb_alu_b_src = `ALU_SRC_IMM8;
+                                                comb_reg_rda_adr = instr[5:4]
+
+                                                comb_adr_bus_src = `AB_PC;
+                                                comb_idu_mode = `INC;
+                                                comb_idu_dst = `IDU_DST_PC;
+                                                comb_next_m_cycle = `m0;
+                                            
+                                            end
+                                            endcase
                                         end
                                         
 
@@ -1079,6 +1180,10 @@ always@(*) begin
 
                         2'b01: begin //block 1 
                             //ld r8, r8. (halt if ld [hl], [hl])
+                            case(m_cycle)
+                                `m0: begin
+                                end
+                            endcase
                         end
 
 
@@ -1849,5 +1954,3 @@ end
         idu_src <= comb_idu_src;
     end
 endmodule
-
-

@@ -129,7 +129,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_cpu___024root final : public VerilatedMod
         IData/*31:0*/ __VactIterCount;
         VlUnpacked<CData/*7:0*/, 6> tb_cpu__DOT__dut__DOT__registers__DOT__regs;
         VlUnpacked<CData/*7:0*/, 65536> tb_cpu__DOT__mem__DOT__mem;
-        VlUnpacked<CData/*0:0*/, 7> __Vm_traceActivity;
+        VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
     };
     VlDelayScheduler __VdlySched;
     VlTriggerVec<1> __VstlTriggered;

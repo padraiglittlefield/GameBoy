@@ -92,28 +92,26 @@ initial begin
     //NOPs
     mem[33] = 8'h00;
     mem[34] = 8'h00;
-    mem[35] = 8'h00;
-
 
     //sub a, imm8
-    mem[36] = 8'hD6;
-    mem[37] = 8'h05;
+    mem[35] = 8'hD6;
+    mem[36] = 8'h05;
 
     //ld [DE], a
-    mem[38] = 8'h12;
+    mem[37] = 8'h12;
 
     //sub a, imm8
-    mem[39] = 8'hD6;
-    mem[40] = 8'h17;
+    mem[38] = 8'hD6;
+    mem[39] = 8'h17;
 
     //ld a, [DE]
-    mem[41] = 8'h1A;
+    mem[40] = 8'h1A;
 
     //INC BC
-    mem[42] = 8'h03;
+    mem[41] = 8'h03;
 
     //DEC BC
-    mem[43] = 8'h0B;
+    mem[42] = 8'h0B;
 
 
     

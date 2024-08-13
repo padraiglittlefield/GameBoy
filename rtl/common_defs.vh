@@ -38,18 +38,24 @@
 
 
 //source for alu
-`define ALU_SRC_R8 3'b000
-`define ALU_SRC_ONE 3'b001
-`define ALU_SRC_IMM8 3'b010
-`define ALU_SRC_INSTR 3'b011
-`define ALU_SRC_ACC 3'b100
-`define ALU_SRC_PCL 3'b111
+`define ALU_SRC_R8 4'b0000
+`define ALU_SRC_ONE 4'b0001
+`define ALU_SRC_IMM8 4'b0010
+`define ALU_SRC_INSTR 4'b0011
+`define ALU_SRC_ACC 4'b0100
+`define ALU_SRC_PCL 4'b0111
+`define ALU_SRC_H 4'b1000
+`define ALU_SRC_L 4'b1001
+
 
 // destinations for results
 `define ALU_RES_DST_RIEN 2'b00
 `define ALU_RES_DST_ACC 2'b01
 `define ALU_RES_DST_R8 2'b10
 `define ALU_RES_DST_IMMZ 2'b11
+`define ALU_RES_DST_H 3'b100
+`define ALU_RES_DST_L 3'b101
+
 
 //m-cycle states
 `define m0 3'b000
@@ -69,10 +75,11 @@
 `define DEC 2'b10
 
 
-`define IDU_DST_PC 2'b00
-`define IDU_DST_r16 2'b01
-`define IDU_DST_RIEN 2'b10
-`define IDU_DST_W 2'b11
+`define IDU_DST_PC 3'b000
+`define IDU_DST_r16 3'b001
+`define IDU_DST_RIEN 3'b010
+`define IDU_DST_W 3'b011
+`define IDU_DST_WZ 3'b100
 
 //address bus
 `define AB_PC 2'b00
@@ -80,8 +87,10 @@
 `define AB_IMM 2'b10
 `define AB_PC_H 2'b11
 
-`define DB_R8 1'b0
-`define DB_ACC 1'b1
+`define DB_R8 2'b00
+`define DB_ACC 2'b10
+`define DB_SPL 2'b10
+`define DB_SPH 2'b11
 
 `define JMP_DST_WZ 1'b0
 `define JMP_DST_HL 1'b1
