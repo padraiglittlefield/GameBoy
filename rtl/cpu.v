@@ -54,6 +54,10 @@ module cpu(
     reg cpu_wr_en_buf;
 
 
+
+    // high-low registers
+    reg [7:0] h_reg;
+    reg [7:0] l_reg;
     // immediate registers
     reg [7:0] imm_z_reg; 
     reg [7:0] imm_w_reg;
@@ -118,7 +122,7 @@ module cpu(
         .rda_adr(reg_rda_adr)
     );
 
-    reg [1:0] idu_dst;
+    reg [2:0] idu_dst;
     idu idu0(
        .rst(rst),
        .data_in(idu_in),
@@ -180,8 +184,8 @@ module cpu(
 
 
 
-    assign alu_a = (alu_a_src == `ALU_SRC_R8) ? reg_rd : (alu_a_src == `ALU_SRC_ACC ? accumulator : (alu_a_src == `ALU_SRC_IMM8 ? imm_z_reg : (8'h00)));
-    assign alu_b = (alu_b_src == `ALU_SRC_R8) ? reg_rd : (alu_b_src == `ALU_SRC_ACC ? accumulator : (alu_b_src == `ALU_SRC_IMM8 ? imm_z_reg : ( alu_b_src == `ALU_SRC_ONE ? 8'h01 : (alu_b_src == `ALU_SRC_INSTR ? instruction : (alu_b_src == `ALU_SRC_PCL ? pc[7:0] : 8'h00)))));
+    assign alu_a = (alu_a_src == `ALU_SRC_R8) ? reg_rd : (alu_a_src == `ALU_SRC_ACC ? accumulator : (alu_a_src == `ALU_SRC_IMM8 ? imm_z_reg : (alu_a_src == `ALU_SRC_H ? h_reg : (alu_a_src == `ALU_SRC_L ? l_reg : (8'h00)))));
+    assign alu_b = (alu_b_src == `ALU_SRC_R8) ? reg_rd : (alu_b_src == `ALU_SRC_ACC ? accumulator : (alu_b_src == `ALU_SRC_IMM8 ? imm_z_reg : ( alu_b_src == `ALU_SRC_ONE ? 8'h01 : (alu_b_src == `ALU_SRC_INSTR ? instruction : (alu_b_src == `ALU_SRC_PCL ? pc[7:0] : (alu_a_src == `ALU_SRC_L ? reg_rda[7:0] : (alu_a_src == `ALU_SRC_H ? reg_rda[15:8] : (8'h00))))))));
     
 
 
@@ -285,6 +289,12 @@ module cpu(
                                 `DB_ACC: begin
                                     data_bus_out_buffer <= accumulator;
                                 end
+                                `DB_SPL: begin
+                                    data_bus_out_buffer <= sp[7:0];
+                                end
+                                `DB_SPH: begin
+                                    data_bus_out_buffer <= sp[15:8];
+                                end
                             endcase
                         end
                     endcase
@@ -301,6 +311,9 @@ module cpu(
                             pc <= idu_res_buffer;
                         end else if(idu_dst == `IDU_DST_W) begin
                             imm_w_reg <= idu_res_buffer[7:0];
+                        end else if(idu_dst == `IDU_DST_WZ) begin
+                            imm_w_reg <= idu_res_buffer[15:8];
+                            imm_z_reg <= idu_res_buffer[7:0]
                         end else begin
                             pc <= pc;  
                         end

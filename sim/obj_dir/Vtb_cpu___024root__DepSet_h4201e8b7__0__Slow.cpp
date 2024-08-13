@@ -52,15 +52,14 @@ VL_ATTR_COLD void Vtb_cpu___024root___eval_initial__TOP(Vtb_cpu___024root* vlSel
     vlSelf->tb_cpu__DOT__mem__DOT__mem[0x20U] = 5U;
     vlSelf->tb_cpu__DOT__mem__DOT__mem[0x21U] = 0U;
     vlSelf->tb_cpu__DOT__mem__DOT__mem[0x22U] = 0U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x23U] = 0U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x24U] = 0xd6U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x25U] = 5U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x26U] = 0x12U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x27U] = 0xd6U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x28U] = 0x17U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x29U] = 0x1aU;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x2aU] = 3U;
-    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x2bU] = 0xbU;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x23U] = 0xd6U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x24U] = 5U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x25U] = 0x12U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x26U] = 0xd6U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x27U] = 0x17U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x28U] = 0x1aU;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x29U] = 3U;
+    vlSelf->tb_cpu__DOT__mem__DOT__mem[0x2aU] = 0xbU;
     vlSelf->tb_cpu__DOT__mem__DOT__unnamedblk1__DOT__i = 0x2cU;
     while (VL_GTS_III(32, 0x7fffU, vlSelf->tb_cpu__DOT__mem__DOT__unnamedblk1__DOT__i)) {
         vlSelf->tb_cpu__DOT__mem__DOT__mem[(0xffffU 
@@ -133,7 +132,6 @@ VL_ATTR_COLD void Vtb_cpu___024root___eval_stl(Vtb_cpu___024root* vlSelf) {
     // Body
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
         Vtb_cpu___024root___stl_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[6U] = 1U;
         vlSelf->__Vm_traceActivity[5U] = 1U;
         vlSelf->__Vm_traceActivity[4U] = 1U;
         vlSelf->__Vm_traceActivity[3U] = 1U;
@@ -293,7 +291,6 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                                                       + (IData)(vlSelf->tb_cpu__DOT__dut__DOT__registers__DOT____VdfgRegularize_h73f2c231_0_0)))]
                                                   : 0U));
     if (vlSelf->tb_cpu__DOT__rst) {
-        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_stop = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_halt = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_ime_next = 0U;
@@ -321,6 +318,7 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_adr_bus_src = 0U;
+        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 0U;
         vlSelf->tb_cpu__DOT__dut__DOT__idu_res_buffer = 0U;
     } else {
         vlSelf->tb_cpu__DOT__data_in = vlSelf->tb_cpu__DOT__mem__DOT__mem
@@ -2165,11 +2163,10 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                 if ((0U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_fetch_en = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_adr_bus_src = 0U;
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 0U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_src = 1U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 3U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 1U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_alu_res_dst = 3U;
-                } else if ((1U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode 
                         = ((1U & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg) 
                                   & (~ ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
@@ -2177,11 +2174,15 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                             : (((~ (IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg)) 
                                 & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
                                    >> 7U)) ? 2U : 0U));
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_src = 1U;
+                } else if ((1U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 1U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_jmp_dst = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_adr_bus_src = 2U;
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 3U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 2U;
                 } else if ((2U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_alu_res_dst = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_fetch_en = 1U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
@@ -2197,10 +2198,17 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                                  >> 3U));
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_fetch_en = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_adr_bus_src = 0U;
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 0U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_src = 1U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 3U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 1U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_alu_res_dst = 3U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode 
+                        = ((1U & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg) 
+                                  & (~ ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
+                                        >> 7U)))) ? 1U
+                            : (((~ (IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg)) 
+                                & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
+                                   >> 7U)) ? 2U : 0U));
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__cc_met 
                         = (1U & ((2U & (IData)(vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__cc))
                                   ? ((1U & (IData)(vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__cc))
@@ -2213,19 +2221,14 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                                                     >> 3U)))));
                 } else if ((1U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
                     if (vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__cc_met) {
-                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode 
-                            = ((1U & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg) 
-                                      & (~ ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
-                                            >> 7U))))
-                                ? 1U : (((~ (IData)(vlSelf->tb_cpu__DOT__dut__DOT__flags_reg)) 
-                                         & ((IData)(vlSelf->tb_cpu__DOT__dut__DOT__imm_z_reg) 
-                                            >> 7U))
-                                         ? 2U : 0U));
-                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_src = 1U;
+                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 1U;
+                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_jmp_dst = 0U;
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_adr_bus_src = 2U;
-                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 3U;
+                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
+                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_dst = 0U;
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 2U;
                     } else {
+                        vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 0U;
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_alu_res_dst = 0U;
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_fetch_en = 1U;
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
@@ -2235,7 +2238,7 @@ VL_ATTR_COLD void Vtb_cpu___024root___stl_sequent__TOP__0(Vtb_cpu___024root* vlS
                         vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_next_m_cycle = 0U;
                     }
                 } else if ((2U == (IData)(vlSelf->tb_cpu__DOT__dut__DOT__m_cycle))) {
-                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__cc_met = 0U;
+                    vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_pc_jp = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_alu_res_dst = 0U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_fetch_en = 1U;
                     vlSelf->tb_cpu__DOT__dut__DOT__signal_controller__DOT__comb_idu_mode = 1U;
@@ -2915,7 +2918,7 @@ VL_ATTR_COLD void Vtb_cpu___024root___ctor_var_reset(Vtb_cpu___024root* vlSelf) 
     vlSelf->tb_cpu__DOT__mem__DOT__unnamedblk1__DOT__i = 0;
     vlSelf->__Vtrigprevexpr___TOP__tb_cpu__DOT__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__tb_cpu__DOT__dut__DOT__m_clk__0 = VL_RAND_RESET_I(1);
-    for (int __Vi0 = 0; __Vi0 < 7; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 6; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }
